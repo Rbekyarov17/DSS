@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+//import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 import "./App.css";
-import AboutPage from "./AboutPage";
+
 
 // Interface for the Grade object
 interface Grade {
   id: number;
-  studentFirstName: string;
-  studentLastName: string;
-  subject: string;
-  score: number;
+  field1: string;
+  field2: string;
+  field3: string;
+  field4: number;
   date: Date;
 }
 
@@ -19,10 +19,10 @@ const App: React.FC = () => {
   const [selectedGrade, setSelectedGrade] = useState<Grade | null>(null);
   const [newGrade, setNewGrade] = useState<Grade>({
     id: 1,
-    studentFirstName: "",
-    studentLastName: "",
-    subject: "",
-    score: 0,
+    field1: "",
+    field2: "",
+    field3: "",
+    field4: 0,
     date: new Date(),
   });
 
@@ -40,10 +40,10 @@ const App: React.FC = () => {
     event.preventDefault();
 
     if (
-      !newGrade.studentFirstName ||
-      !newGrade.studentLastName ||
-      !newGrade.subject ||
-      newGrade.score === 0
+      !newGrade.field1 ||
+      !newGrade.field2 ||
+      !newGrade.field3 ||
+      newGrade.field4 === 0
     ) {
       return;
     }
@@ -62,10 +62,10 @@ const App: React.FC = () => {
 
     setNewGrade((prevGrade) => ({
       id: prevGrade.id + 1,
-      studentFirstName: "",
-      studentLastName: "",
-      subject: "",
-      score: 0,
+      field1: "",
+      field2: "",
+      field3: "",
+      field4: 0,
       date: new Date(),
     }));
     setSelectedGrade(null);
@@ -82,32 +82,24 @@ const App: React.FC = () => {
     setGrades((prevGrades) =>
       prevGrades.filter((g) => g.id !== grade.id)
     );
-    // After deleting the grade, update the IDs in order
-    setGrades((prevGrades) =>
-    prevGrades.map((g, index) => ({ ...g, id: index + 1 }))
-    );
-    
     if (selectedGrade && selectedGrade.id === grade.id) {
       setSelectedGrade(null);
       setNewGrade((prevGrade) => ({
         id: prevGrade.id,
-        studentFirstName: "",
-        studentLastName: "",
-        subject: "",
-        score: 0,
+        field1: "",
+        field2: "",
+        field3: "",
+        field4: 0,
         date: new Date(),
       }));
     }
   };
 
   return (
-    <Router>
+    
       <div>
       {/* Navbar */}
-      <nav className="navbar">
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-      </nav>
+      <nav className="navbar">Navbar</nav>
 
       {/* Main content */}
       <main className="main">
@@ -117,14 +109,14 @@ const App: React.FC = () => {
             {grades.map((grade) => (
               <li key={grade.id} onClick={() => handleGradeSelect(grade)}>
                 <p className="id">ID: {grade.id}</p>
-                <p className="studentFirstName">
-                  Student First Name: {grade.studentFirstName}
+                <p className="field1">
+                  Student First Name: {grade.field1}
                 </p>
-                <p className="studentLastName">
-                  Student Last Name: {grade.studentLastName}
+                <p className="field2">
+                  Student Last Name: {grade.field2}
                 </p>
-                <p className="subject">Subject: {grade.subject}</p>
-                <p className="score">Score: {grade.score}</p>
+                <p className="field3">Subject: {grade.field3}</p>
+                <p className="field4">Score: {grade.field4}</p>
                 <p className="date">Date: {grade.date.toDateString()}</p>
                 <button
                   className="deleteButton"
@@ -145,32 +137,32 @@ const App: React.FC = () => {
           <form onSubmit={handleSubmit}>
             <input
               type="text"
-              id="studentFirstName"
-              value={newGrade.studentFirstName}
+              id="field1"
+              value={newGrade.field1}
               onChange={handleInputChange}
               placeholder="Student First Name"
               required
             />
             <input
               type="text"
-              id="studentLastName"
-              value={newGrade.studentLastName}
+              id="field2"
+              value={newGrade.field2}
               onChange={handleInputChange}
               placeholder="Student Last Name"
               required
             />
             <input
               type="text"
-              id="subject"
-              value={newGrade.subject}
+              id="field3"
+              value={newGrade.field3}
               onChange={handleInputChange}
               placeholder="Subject"
               required
             />
             <input
               type="number"
-              id="score"
-              value={newGrade.score}
+              id="field4"
+              value={newGrade.field4}
               onChange={handleInputChange}
               min="2"
               max="6"
@@ -186,10 +178,10 @@ const App: React.FC = () => {
               onClick={() =>
                 setNewGrade((prevGrade) => ({
                   id: prevGrade.id,
-                  studentFirstName: "",
-                  studentLastName: "",
-                  subject: "",
-                  score: 0,
+                  field1: "",
+                  field2: "",
+                  field3: "",
+                  field4: 0,
                   date: new Date(),
                 }))
               }
@@ -204,13 +196,8 @@ const App: React.FC = () => {
       {/* Footer */}
       <footer className="footer">Footer</footer>
 
-      {/* Routes */}
-      <Routes>
-        <Route path="/about" element={<AboutPage/>} />
-        {/* Add other routes as needed */}
-      </Routes>
     </div>
-    </Router>
+    
   );
 };
 
