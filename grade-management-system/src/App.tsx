@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-//import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
 import "./App.css";
-
 
 // Interface for the Grade object
 interface Grade {
@@ -10,29 +8,61 @@ interface Grade {
   field2: string;
   field3: string;
   field4: number;
-  date: Date;
+  field5: string;
 }
 
 const App: React.FC = () => {
   // State variables
-  const [grades, setGrades] = useState<Grade[]>([]);
+  const initialGrades: Grade[] = [
+    {
+      id: 1,
+      field1: "John",
+      field2: "Doe",
+      field3: "Math",
+      field4: 5,
+      field5: "2023-07-20",
+    },
+    {
+      id: 2,
+      field1: "Alice",
+      field2: "Smith",
+      field3: "History",
+      field4: 4,
+      field5: "2023-07-21",
+    },
+  ];
+
+  // State variables
+  const [grades, setGrades] = useState<Grade[]>(initialGrades);
   const [selectedGrade, setSelectedGrade] = useState<Grade | null>(null);
   const [newGrade, setNewGrade] = useState<Grade>({
-    id: 1,
+    id: 3,
     field1: "",
     field2: "",
     field3: "",
     field4: 0,
-    date: new Date(),
+    field5: "",
   });
 
-  // Handle form input change
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;
-    setNewGrade((prevGrade) => ({
-      ...prevGrade,
-      [id]: value,
-    }));
+
+    // Special handling for the field5 input (Date)
+    if (id === "field5") {
+      // Validate the field5 format (YYYY-MM-DD) using a regular expression
+      const datePattern = /^\d{4}-\d{2}-\d{2}$/;
+      if (value.match(datePattern)) {
+        setNewGrade((prevGrade) => ({
+          ...prevGrade,
+          field5: value,
+        }));
+      }
+    } else {
+      setNewGrade((prevGrade) => ({
+        ...prevGrade,
+        [id]: value,
+      }));
+    }
   };
 
   // Handle form submission
@@ -43,7 +73,8 @@ const App: React.FC = () => {
       !newGrade.field1 ||
       !newGrade.field2 ||
       !newGrade.field3 ||
-      newGrade.field4 === 0
+      newGrade.field4 === 0 ||
+      !newGrade.field5.match(/^\d{4}-\d{2}-\d{2}$/)
     ) {
       return;
     }
@@ -66,7 +97,7 @@ const App: React.FC = () => {
       field2: "",
       field3: "",
       field4: 0,
-      date: new Date(),
+      field5: "",
     }));
     setSelectedGrade(null);
   };
@@ -82,6 +113,9 @@ const App: React.FC = () => {
     setGrades((prevGrades) =>
       prevGrades.filter((g) => g.id !== grade.id)
     );
+    setGrades((prevGrades) =>
+      prevGrades.map((g, index) => ({ ...g, id: index + 1 }))
+    );
     if (selectedGrade && selectedGrade.id === grade.id) {
       setSelectedGrade(null);
       setNewGrade((prevGrade) => ({
@@ -90,14 +124,13 @@ const App: React.FC = () => {
         field2: "",
         field3: "",
         field4: 0,
-        date: new Date(),
+        field5: "",
       }));
     }
   };
 
   return (
-    
-      <div>
+    <div>
       {/* Navbar */}
       <nav className="navbar">Navbar</nav>
 
@@ -109,15 +142,11 @@ const App: React.FC = () => {
             {grades.map((grade) => (
               <li key={grade.id} onClick={() => handleGradeSelect(grade)}>
                 <p className="id">ID: {grade.id}</p>
-                <p className="field1">
-                  Student First Name: {grade.field1}
-                </p>
-                <p className="field2">
-                  Student Last Name: {grade.field2}
-                </p>
+                <p className="field1">Student First Name: {grade.field1}</p>
+                <p className="field2">Student Last Name: {grade.field2}</p>
                 <p className="field3">Subject: {grade.field3}</p>
                 <p className="field4">Score: {grade.field4}</p>
-                <p className="date">Date: {grade.date.toDateString()}</p>
+                <p className="field5">Date: {grade.field5}</p>
                 <button
                   className="deleteButton"
                   onClick={(event) => {
@@ -169,6 +198,15 @@ const App: React.FC = () => {
               placeholder="Score (2-6)"
               required
             />
+            <input
+              type="text"
+              id="field5"
+              defaultValue={newGrade.field5}
+              onChange={handleInputChange}
+              placeholder="Date (YYYY-MM-DD)"
+              required
+            />
+
             <button type="submit" id="saveButton">
               Save
             </button>
@@ -182,7 +220,7 @@ const App: React.FC = () => {
                   field2: "",
                   field3: "",
                   field4: 0,
-                  date: new Date(),
+                  field5: "",
                 }))
               }
             >
@@ -190,14 +228,11 @@ const App: React.FC = () => {
             </button>
           </form>
         </section>
-        
       </main>
 
       {/* Footer */}
       <footer className="footer">Footer</footer>
-
     </div>
-    
   );
 };
 
