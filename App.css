@@ -1,0 +1,106 @@
+/* App.css */
+
+/* Global styles */
+body {
+  min-height: 100vh; /* Ensure the body takes up at least the full viewport height */
+  display: flex;
+  flex-direction: column; /* Use flexbox to make the footer stick to the bottom */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Main container styles */
+.main {
+  flex: 1; /* Make the main section take up remaining vertical space */
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+/* List Section styles */
+.content-list {
+  flex: 1;
+  max-width: 600px;
+}
+
+.grade-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.grade-list li {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.grade-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.grade-list p {
+  margin: 5px 0;
+}
+
+.deleteButton {
+  background-color: #cc0000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* Details Section styles */
+.content-details {
+  flex: 1;
+  max-width: 400px;
+}
+
+form {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+form input,
+form button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form button#clearButton {
+  background-color: #dc3545;
+}
+
+/* Footer styles */
+.footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+}
